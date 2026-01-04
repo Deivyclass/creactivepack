@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREACTIVEPACK | Portal Completo 🛵</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rosa: #ff85c0; --azul: #40a9ff; --amarillo: #ffec3d; --verde: #2ecc71; --purpura: #a29bfe; --oro: #d4ac0d;
+            --bg: #fdf2f8; --dark: #333;
+        }
+
+        body { font-family: 'Quicksand', sans-serif; background-color: var(--bg); margin: 0; overflow-x: hidden; }
+
+        header {
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
+            background: white; border-bottom: 4px solid var(--rosa); position: sticky; top: 0; z-index: 1000;
+        }
+
+        .btn-nav { cursor: pointer; font-weight: bold; color: var(--rosa); display: flex; align-items: center; gap: 5px; font-size: 22px; }
+
+        .view-section { display: none; padding: 20px 5%; animation: fadeIn 0.4s ease; }
+        .view-active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ICONOS GIGANTES */
+        .home-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px 5%; }
+        .menu-card {
+            background: white; border-radius: 40px; padding: 30px; text-align: center;
+            cursor: pointer; transition: 0.4s; border: 3px solid white; box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+        }
+        .menu-card:hover { transform: scale(1.05); border-color: var(--rosa); }
+        .menu-card i { font-size: 5rem; display: block; margin-bottom: 15px; font-style: normal; }
+
+        /* SLIDER CON CHAT */
+        .promo-slider { margin: 20px 5%; background: white; border-radius: 40px; overflow: hidden; border: 2px solid #eee; height: 180px; position: relative; }
+        .slider-wrapper { display: flex; transition: transform 0.8s ease; height: 100%; }
+        .slide { min-width: 100%; display: flex; align-items: center; padding: 0 40px; gap: 25px; }
+        .btn-chat-promo { background: #25d366; color: white; border: none; padding: 10px 15px; border-radius: 50px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+
+        /* PRODUCTOS */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
+        .item-card { background: white; border-radius: 30px; padding: 20px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .item-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 20px; margin-bottom: 10px; }
+        .btn-add { border: none; padding: 15px; border-radius: 50px; color: white; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+
+        /* MODAL CHECKOUT */
+        #checkout-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; }
+        .checkout-content { background: white; padding: 30px; border-radius: 35px; width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto; text-align: center; }
+        .form-group { text-align: left; margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border-radius: 15px; border: 1px solid #ddd; box-sizing: border-box; }
+
+        /* CARRITO ESTILO */
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .btn-del { color: #ff4d4f; border: none; background: none; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="btn-nav" onclick="showView('home')">🏠 <span>CREACTIVEPACK</span></div>
+        <div onclick="openCheckout()" style="background: var(--rosa); color: white; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-weight: bold;">
+            🛒 Carrito (<span id="cart-count">0</span>)
+        </div>
+    </header>
+
+    <main id="view-home" class="view-section view-active">
+        <div class="promo-slider" id="adSlider">
+            <div class="slider-wrapper" id="sliderWrapper">
+                <div class="slide" style="background: linear-gradient(to right, #fff, #e6f7ff);">
+                    <span style="font-size: 4rem;">🛡️</span>
+                    <div>
+                        <h2 style="margin:0;">Seguridad Total</h2>
+                        <p style="margin:5px 0;">Instalación y Venta: Cámaras y Sistemas de Acceso.</p>
+                        <button class="btn-chat-promo" onclick="chatWhatsApp('Hola, necesito una cotización para sistemas de seguridad y cámaras')">Cotizar Proyecto 💬</button>
+                    </div>
+                </div>
+                <div class="slide" style="background: linear-gradient(to right, #fff, #fff0f6);">
+                    <span style="font-size: 4rem;">🛵</span>
+                    <div>
+                        <h2 style="margin:0;">RapimotoRD</h2>
+                        <p style="margin:5px 0;">Entregas en tiempo récord.</p>
+                        <button class="btn-chat-promo" onclick="chatWhatsApp('Hola, ¿qué precio tiene el envío a mi zona?')">Consultar delivery 💬</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="home-grid">
+            <div class="menu-card" onclick="showView('cajas')"><i>📦</i><h3 style="color:var(--purpura)">Caja Personalizada</h3></div>
+            <div class="menu-card" onclick="showView('tecni')"><i>⚙️</i><h3 style="color:var(--azul)">TecniSoluciones</h3></div>
+            <div class="menu-card" onclick="showView('regalos')"><i>💝</i><h3 style="color:var(--rosa)">Regalos y Detalles</h3></div>
+            <div class="menu-card" onclick="showView('papa')"><i>📚</i><h3 style="color:var(--oro)">Artículos de Papelería</h3></div>
+        </div>
+        
+        <div style="margin: 20px 5%; padding: 25px; background: white; border-radius: 40px; border: 3px dashed var(--rosa); text-align: center;">
+            <h2 style="color: var(--rosa); margin: 0;">🔥 OFERTA FLASH</h2>
+            <div style="display:flex; align-items:center; justify-content:center; gap:20px; margin-top:15px;">
+                <span style="font-size:3rem;">🍫</span>
+                <div style="text-align:left;">
+                    <h4 style="margin:0;">Kit Dulce</h4>
+                    <p style="margin:0; font-weight:bold; color:var(--rosa);">RD$ 950</p>
+                    <button onclick="addToCart('Kit Dulce (Flash)', 950)" style="background:none; border:none; color:var(--azul); font-weight:bold; cursor:pointer;">+ Añadir</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section id="view-papa" class="view-section">
+        <button onclick="showView('home')" style="border:none; background:none; color:var(--oro); font-weight:bold; cursor:pointer;">← Volver</button>
+        <h1 style="color:var(--oro)">📚 Papelería y Útiles</h1>
+        <div class="products-grid">
+            <div class="item-card">
+                <img src="https://images.unsplash.com/photo-1586075010633-2470acfd8e8b?auto=format&fit=crop&w=500">
+                <h3>Resma Papel Premium</h3><p>RD$ 380</p>
+                <button class="btn-add" style="background:var(--oro)" onclick="addToCart('Resma Papel', 380)">Añadir</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="view-cajas" class="view-section">
+        <button onclick="showView('home')" style="border:none; background:none; color:var(--purpura); font-weight:bold; cursor:pointer;">← Volver</button>
+        <h1 style="text-align:center; color: var(--purpura);">📦 Pedir Caja Personalizada</h1>
+        <div style="background: white; padding: 30px; border-radius: 35px; border: 3px solid var(--purpura); max-width: 500px; margin: auto;">
+            <div class="form-group"><label>Motivo:</label><select id="box-reason"><option>Boda</option><option>Cumpleaños</option><option>Aniversario</option></select></div>
+            <div class="form-group"><label>Medidas:</label><input type="text" id="box-size" placeholder="Ej: 20x20x10 cm"></div>
+            <div class="form-group"><label>Foto Referencia (URL):</label><input type="text" id="box-img" placeholder="Link de foto"></div>
+            <button class="btn-add" style="background:var(--purpura)" onclick="addBox()">Añadir Configuración</button>
+        </div>
+    </section>
+
+    <section id="view-tecni" class="view-section">
+        <button onclick="showView('home')" style="border:none; background:none; color:var(--azul); font-weight:bold; cursor:pointer;">← Volver</button>
+        <h1 style="color:var(--azul)">⚙️ TecniSoluciones</h1>
+        <div class="products-grid">
+            <div class="item-card">
+                <img src="https://images.unsplash.com/photo-1557597774-9d2739f85a94?auto=format&fit=crop&w=500">
+                <h3>Kit Cámaras</h3><p>RD$ 12,500</p>
+                <button class="btn-add" style="background:var(--azul)" onclick="addToCart('Kit Cámaras', 12500)">Añadir</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="view-regalos" class="view-section">
+        <button onclick="showView('home')" style="border:none; background:none; color:var(--rosa); font-weight:bold; cursor:pointer;">← Volver</button>
+        <h1 style="color:var(--rosa)">💝 Regalos</h1>
+        <div class="products-grid">
+            <div class="item-card">
+                <img src="https://images.unsplash.com/photo-1549465220-1d8c9d9c47db?auto=format&fit=crop&w=500">
+                <h3>Caja Regalo</h3><p>RD$ 1,500</p>
+                <button class="btn-add" style="background:var(--rosa)" onclick="addToCart('Caja Regalo', 1500)">Añadir</button>
+            </div>
+        </div>
+    </section>
+
+    <div id="checkout-modal">
+        <div class="checkout-content">
+            <h2 style="color:var(--verde);">Finalizar Pedido 🛵</h2>
+            <div id="cart-list" style="text-align:left; margin-bottom:20px; background:#f9f9f9; padding:15px; border-radius:20px;"></div>
+            
+            <div class="form-group"><label>Nombre:</label><input type="text" id="cust-name"></div>
+            <div class="form-group"><label>Dirección:</label><input type="text" id="cust-address"></div>
+            <div class="form-group"><label>Método de Pago:</label>
+                <select id="cust-payment">
+                    <option>Transferencia</option><option>Efectivo</option><option>Tarjeta</option>
+                </select>
+            </div>
+            <div style="font-size: 1.8rem; font-weight: bold; margin: 20px 0;">Total: RD$ <span id="total-final">0</span></div>
+            <button class="btn-add" style="background:var(--verde);" onclick="confirmOrder()">CONFIRMAR Y ENVIAR RAPIMOTORD 🛵</button>
+            <button onclick="closeCheckout()" style="background:none; border:none; color:gray; cursor:pointer; margin-top:10px;">Seguir Comprando</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = []; let subtotal = 0;
+        const WHATSAPP_NUMBER = "1809XXXXXXX"; // <--- PON TU NÚMERO AQUÍ
+
+        function showView(v) {
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('view-active'));
+            document.getElementById('view-' + v).classList.add('view-active');
+            window.scrollTo(0,0);
+        }
+
+        function chatWhatsApp(mensaje) {
+            window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+        }
+
+        function addToCart(n, p) {
+            cart.push({name: n, price: p}); 
+            updateCart();
+            alert("¡Añadido al carrito!");
+        }
+
+        function addBox() {
+            const r = document.getElementById('box-reason').value;
+            const s = document.getElementById('box-size').value;
+            if(!s) return alert("Por favor, ingresa las medidas");
+            cart.push({name: `Caja: ${s} (${r})`, price: 1000});
+            updateCart();
+            showView('home');
+        }
+
+        function updateCart() {
+            subtotal = cart.reduce((sum, i) => sum + i.price, 0);
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('total-final').innerText = subtotal;
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCart();
+            renderCart();
+            if(cart.length === 0) closeCheckout();
+        }
+
+        function renderCart() {
+            const list = document.getElementById('cart-list');
+            list.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <span>${item.name} - RD$ ${item.price}</span>
+                    <button class="btn-del" onclick="removeItem(${index})">❌</button>
+                </div>
+            `).join('');
+        }
+
+        function openCheckout() {
+            if(cart.length === 0) return alert("El carrito está vacío");
+            renderCart();
+            document.getElementById('checkout-modal').style.display = 'flex';
+        }
+
+        function closeCheckout() { document.getElementById('checkout-modal').style.display = 'none'; }
+
+        function confirmOrder() {
+            const name = document.getElementById('cust-name').value;
+            const addr = document.getElementById('cust-address').value;
+            const pay = document.getElementById('cust-payment').value;
+            if(!name || !addr) return alert("Completa tus datos");
+            
+            let t = `*NUEVO PEDIDO RAPIMOTORD 🛵*%0A*Cliente:* ${name}%0A*Dir:* ${addr}%0A*Pago:* ${pay}%0A%0A` + 
+                    cart.map(i => `- ${i.name}`).join('%0A') + `%0A%0A*TOTAL:* RD$ ${subtotal}`;
+            window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${t}`;
+        }
+
+        let sIdx = 0;
+        setInterval(() => {
+            sIdx = (sIdx + 1) % 2;
+            const sw = document.getElementById('sliderWrapper');
+            if(sw) sw.style.transform = `translateX(-${sIdx * 100}%)`;
+        }, 5000);
+    </script>
+</body>
+</html>

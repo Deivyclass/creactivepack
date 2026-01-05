@@ -3,135 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CREACTIVEPACK | MASTER ADMIN PRO v7.0</title>
+    <title>CREACTIVEPACK | ADMIN PRO</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --neon: #00f2fe; --p: #ff007f; --bg: #050a18; --card: rgba(30, 41, 59, 0.7); 
-            --success: #10b981; --warning: #f59e0b;
-        }
-        
-        body { 
-            font-family: 'Quicksand', sans-serif; background: var(--bg); color: white; 
-            margin: 0; display: flex; flex-direction: column; min-height: 100vh;
-            background-image: radial-gradient(circle at top right, #1e293b, #050a18);
-        }
-
-        header { 
-            padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100;
-        }
-        header h1 { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; margin: 0; letter-spacing: 2px; color: var(--neon); }
-
-        .nav-tabs { display: flex; background: rgba(15, 23, 42, 0.9); padding: 5px; gap: 5px; position: sticky; top: 60px; z-index: 99; overflow-x: auto; }
-        .tab-btn { 
-            flex: 1; min-width: 80px; padding: 12px 5px; border: none; background: transparent; color: #64748b; 
-            font-weight: bold; font-size: 0.65rem; border-radius: 10px; cursor: pointer; transition: 0.3s;
-        }
+        :root { --neon: #00f2fe; --p: #ff007f; --bg: #050a18; --card: rgba(30, 41, 59, 0.7); }
+        body { font-family: 'Quicksand', sans-serif; background: var(--bg); color: white; margin: 0; background-image: radial-gradient(circle at top right, #1e293b, #050a18); min-height: 100vh; }
+        header { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        .nav-tabs { display: flex; background: rgba(15, 23, 42, 0.9); padding: 5px; gap: 5px; overflow-x: auto; }
+        .tab-btn { flex: 1; min-width: 80px; padding: 12px 5px; border: none; background: transparent; color: #64748b; font-weight: bold; font-size: 0.65rem; border-radius: 10px; cursor: pointer; }
         .tab-btn.active { background: var(--p); color: white; box-shadow: 0 0 15px var(--p); }
-
-        .container { padding: 20px; padding-bottom: 120px; flex-grow: 1; }
-
-        .glass-card { 
-            background: var(--card); backdrop-filter: blur(15px); border-radius: 20px; 
-            padding: 20px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;
-        }
-
-        h2 { font-size: 0.9rem; color: var(--neon); text-transform: uppercase; margin-top: 0; }
-
-        input, select, textarea { 
-            width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid #334155; 
-            border-radius: 12px; color: white; margin-bottom: 10px; box-sizing: border-box;
-        }
-
-        .btn-action { 
-            width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; 
-            cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
+        .container { padding: 20px; padding-bottom: 100px; }
+        .glass-card { background: var(--card); backdrop-filter: blur(15px); border-radius: 20px; padding: 20px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+        input, select { width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid #334155; border-radius: 12px; color: white; margin-bottom: 10px; box-sizing: border-box; }
+        .btn-action { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-cam { background: linear-gradient(45deg, #10b981, #059669); color: white; }
         .btn-add { background: var(--p); color: white; }
-
-        .item-preview { 
-            display: flex; gap: 15px; background: rgba(255,255,255,0.05); padding: 10px; 
-            border-radius: 15px; margin-bottom: 10px; border-left: 4px solid var(--neon);
-        }
-        .item-preview img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; }
-
-        .publish-footer { 
-            position: fixed; bottom: 0; width: 100%; background: rgba(5, 10, 24, 0.9); 
-            padding: 15px; backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        .btn-publish { 
-            background: linear-gradient(45deg, var(--neon), #7000ff); color: white; 
-            width: 90%; margin-left: 5%; padding: 18px; border-radius: 15px; font-weight: bold; 
-            font-size: 1.1rem; border: none; box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
-        }
+        .btn-publish { position: fixed; bottom: 20px; left: 5%; width: 90%; background: linear-gradient(45deg, var(--neon), #7000ff); color: white; padding: 18px; border-radius: 15px; font-weight: bold; border: none; box-shadow: 0 0 20px rgba(0, 242, 254, 0.4); z-index: 100; }
+        .item-preview { display: flex; gap: 15px; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 15px; margin-bottom: 10px; border-left: 4px solid var(--neon); }
+        .item-preview img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>CREACTIVEPACK <span style="font-size: 0.6rem; opacity: 0.5;">PRO ADMIN 7.0</span></h1>
+        <h1 style="font-family:'Orbitron'; font-size:1.1rem; color:var(--neon);">CREACTIVEPACK ADMIN</h1>
     </header>
 
     <nav class="nav-tabs">
-        <button class="tab-btn active" onclick="showTab('tecni')">⚙️ TECNI</button>
-        <button class="tab-btn" onclick="showTab('regalos')">🎁 REGALOS</button>
-        <button class="tab-btn" onclick="showTab('seguridad')">🛵 SEGURIDAD</button>
-        <button class="tab-btn" onclick="showTab('list')">📋 REVISAR</button>
+        <button class="tab-btn active" onclick="showTab('tecni')">TECNI</button>
+        <button class="tab-btn" onclick="showTab('regalos')">REGALOS</button>
+        <button class="tab-btn" onclick="showTab('seguridad')">SEGURIDAD</button>
+        <button class="tab-btn" onclick="showTab('list')">REVISAR</button>
     </nav>
 
     <div class="container">
         <div class="glass-card">
-            <h2>📸 MULTIMEDIA (AHORRO MEGAS)</h2>
-            <div id="upStatus" style="font-size: 0.8rem; margin-bottom: 10px; text-align: center; color: var(--neon);">Listo para capturar</div>
-            <input type="file" id="camInput" accept="image/*" style="display:none" onchange="uploadPro(this)">
-            <button class="btn-action btn-cam" onclick="document.getElementById('camInput').click()">📷 CAPTURAR / SUBIR FOTO</button>
+            <h2 style="font-size:0.8rem; color:var(--neon);">📸 MULTIMEDIA (AHORRO MEGAS)</h2>
+            <div id="upStatus" style="font-size: 0.7rem; margin-bottom: 10px; text-align: center;">Listo para capturar</div>
+            <input type="file" id="camInput" accept="image/*" style="display:none" onchange="uploadToImgBB(this)">
+            <button class="btn-action btn-cam" onclick="document.getElementById('camInput').click()">📷 TOMAR/SUBIR FOTO</button>
             <input type="hidden" id="tempUrl">
         </div>
 
         <div id="tecni" class="tab-content">
             <div class="glass-card">
-                <h2>⚙️ TECNISOLUCIONES</h2>
-                <input type="text" id="tName" placeholder="Cámara, Inversor, etc.">
+                <input type="text" id="tName" placeholder="Nombre del producto">
                 <input type="number" id="tPrice" placeholder="Precio RD$">
-                <select id="tStock">
-                    <option value="Disponible">🟢 En Stock</option>
-                    <option value="Agotado">🔴 Agotado</option>
-                </select>
-                <button class="btn-action btn-add" onclick="pushItem('tName', 'tPrice', '#00f2fe', 'tStock')">AÑADIR PRODUCTO</button>
-            </div>
-        </div>
-
-        <div id="regalos" class="tab-content" style="display:none">
-            <div class="glass-card">
-                <h2>🎁 REGALOS Y DETALLES</h2>
-                <input type="text" id="rName" placeholder="Caja, Arreglo, Regalo">
-                <input type="number" id="rPrice" placeholder="Precio RD$">
-                <button class="btn-action btn-add" onclick="pushItem('rName', 'rPrice', '#ff007f')">AÑADIR REGALO</button>
+                <button class="btn-action btn-add" onclick="pushItem('tName', 'tPrice', '#00f2fe')">AÑADIR PRODUCTO</button>
             </div>
         </div>
 
         <div id="seguridad" class="tab-content" style="display:none">
             <div class="glass-card">
-                <h2>🛵 SEGURIDAD RAPIMOTORD</h2>
-                <p style="font-size:0.7rem; color:#64748b;">Sube las 3 fotos de personas conocidas de la localidad:</p>
-                <button class="btn-action btn-cam" style="background: var(--warning)" onclick="document.getElementById('camInput').click()">SUBIR FOTO DE CONFIANZA</button>
-                <div id="seguridadStatus" style="font-size:0.7rem; margin-top:10px;"></div>
+                <h2 style="font-size:0.8rem; color:var(--neon);">🛵 FOTOS DE CONFIANZA</h2>
+                <input type="text" id="sName" placeholder="Nombre de la persona/localidad">
+                <button class="btn-action btn-add" style="background:orange" onclick="pushItem('sName', null, 'orange')">AÑADIR A SEGURIDAD</button>
             </div>
         </div>
 
         <div id="list" class="tab-content" style="display:none">
             <div class="glass-card">
-                <h2>📋 LISTA PARA PUBLICAR</h2>
                 <div id="renderList"></div>
             </div>
         </div>
     </div>
 
-    <div class="publish-footer">
-        <button class="btn-publish" id="masterPublish">🚀 PUBLICAR EN LA WEB</button>
-    </div>
+    <button class="btn-publish" id="masterPublish">🚀 PUBLICAR CAMBIOS</button>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -148,15 +85,13 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const IMGBB_API = "c2be55964edd213f2858c698b15a6c9d"; 
 
-        // CLAVE IMGBB (IMPORTANTE: Crea tu propia clave en imgbb.com para que funcione)
-        const IMGBB_API = "395015386f6f9660517f415951684c37"; 
-
-        window.uploadPro = async (input) => {
+        window.uploadToImgBB = async (input) => {
             const file = input.files[0];
             if(!file) return;
             const status = document.getElementById('upStatus');
-            status.innerHTML = "⏳ OPTIMIZANDO Y SUBIENDO...";
+            status.innerHTML = "⏳ SUBIENDO Y AHORRANDO MEGAS...";
             
             const formData = new FormData();
             formData.append("image", file);
@@ -168,8 +103,11 @@
                 });
                 const data = await res.json();
                 document.getElementById('tempUrl').value = data.data.url;
-                status.innerHTML = "✅ FOTO LISTA (BAJA CALIDAD)";
-            } catch (e) { status.innerHTML = "❌ ERROR DE CONEXIÓN"; }
+                status.innerHTML = "✅ FOTO LISTA (LOW QUALITY)";
+            } catch (e) { 
+                status.innerHTML = "❌ ERROR: Revisa tu conexión o la API";
+                console.error(e);
+            }
         }
 
         window.showTab = (id) => {
@@ -179,43 +117,31 @@
             event.currentTarget.classList.add('active');
         }
 
-        window.pushItem = (idN, idP, color, idS = null) => {
+        window.pushItem = (idN, idP, color) => {
             const name = document.getElementById(idN).value;
             const price = idP ? document.getElementById(idP).value : "";
             const img = document.getElementById('tempUrl').value;
-            const stock = idS ? document.getElementById(idS).value : "Disponible";
-
-            if(!name || !img) return alert("Primero captura una foto y pon un nombre.");
+            if(!name || !img) return alert("Falta nombre o foto");
 
             const div = document.createElement('div');
             div.className = "item-preview";
             div.style.borderLeftColor = color;
-            div.innerHTML = `
-                <img src="${img}">
-                <div>
-                    <b style="color:white">${name}</b><br>
-                    <span style="color:var(--success)">RD$ ${price}</span>
-                    <small style="display:block; color:gray; font-size:0.6rem;">${stock}</small>
-                </div>
-            `;
+            div.innerHTML = `<img src="${img}"><div><b>${name}</b><br><small>RD$ ${price}</small></div>`;
             document.getElementById('renderList').prepend(div);
-            document.getElementById(idN).value = "";
-            document.getElementById('tempUrl').value = "";
-            document.getElementById('upStatus').innerHTML = "Listo para otra foto";
+            alert("Añadido a la lista");
         }
 
         document.getElementById('masterPublish').onclick = async () => {
             const html = document.getElementById('renderList').innerHTML;
-            if(!html) return alert("No hay nada nuevo para publicar.");
-            
+            if(!html) return alert("Nada que publicar");
             try {
                 await setDoc(doc(db, "configuracion", "web_data"), {
                     htmlEstructura: html,
                     ultimaActualizacion: new Date().getTime()
                 });
-                alert("🚀 ¡WEB ACTUALIZADA EXITOSAMENTE!");
+                alert("🚀 ¡WEB ACTUALIZADA!");
                 location.reload();
-            } catch (e) { alert("Error al conectar con Firebase"); }
+            } catch (e) { alert("Error al guardar en Firebase"); }
         }
     </script>
 </body>

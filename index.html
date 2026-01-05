@@ -1,4 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREACTIVEPACK | Seguridad y Detalles 🚀</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rosa: #ff5e92; --azul: #40a9ff; --oro: #d4ac0d; --purpura: #a29bfe;
+            --verde: #2ecc71; --bg: #fff5f8; --negro: #2d3436;
+        }
+
+        body { font-family: 'Quicksand', sans-serif; background-color: var(--bg); margin: 0; color: #444; overflow-x: hidden; }
+
+        /* --- SPLASH SCREEN --- */
+        #splash {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: white; z-index: 5000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+        .splash-title { color: var(--rosa); font-size: 1.8rem; font-weight: 800; text-align: center; margin-top: 15px; }
+        .splash-subtitle { color: var(--azul); font-size: 1.1rem; font-weight: 600; margin-top: 5px; letter-spacing: 2px; }
+        
+        .loader-circle {
+            width: 120px; height: 120px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+            background: conic-gradient(from 0deg, #ff5e92, #40a9ff, #d4ac0d, #2ecc71, #ff5e92);
+            animation: rotate 2s linear infinite;
+        }
+        .loader-circle::after { content: ""; position: absolute; width: 105px; height: 105px; background: white; border-radius: 50%; }
+        .gift-icon { font-size: 50px; z-index: 10; animation: bounce 1.5s infinite alternate; }
+
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+        @keyframes bounce { from { transform: scale(1); } to { transform: scale(1.1); } }
+
+        /* --- DISEÑO MODERNO --- */
+        header {
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
+            background: white; border-bottom: 3px solid var(--rosa); position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .logo { font-weight: 700; color: var(--rosa); font-size: 1.3rem; cursor: pointer; }
+        .cart-btn { background: var(--rosa); color: white; border: none; padding: 10px 18px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .cart-btn:active { transform: scale(0.9); }
+
+        /* HERO SECTION */
+        #hero { 
+            padding: 40px 5%; 
+            background: linear-gradient(135deg, #fff 0%, var(--bg) 100%); 
+            text-align: center;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+        }
+
+        .cta-container { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+        .cta-main { border: none; padding: 15px 25px; border-radius: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+
+        /* BARRA DE CONFIANZA */
+        .trust-bar { 
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; 
+            padding: 20px 5%; text-align: center; background: white; margin: 15px 5%;
+            border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+        .trust-item { font-size: 0.7rem; font-weight: bold; color: #777; }
+        .trust-item div { font-size: 1.5rem; margin-bottom: 5px; }
+
+        /* PRODUCTOS Y CATEGORÍAS */
+        .info-slider { margin: 15px 5%; background: white; border-radius: 20px; overflow: hidden; height: 50px; border: 2px solid var(--azul); }
+        .info-wrapper { display: flex; transition: 0.8s ease; height: 100%; }
+        .info-slide { min-width: 100%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #555; font-size: 0.8rem; }
+
+        .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 10px 5%; }
+        .cat-item { background: white; padding: 15px 10px; border-radius: 25px; text-align: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; }
+        .cat-item:active { transform: scale(0.95); }
+        .cat-img { width: 60px; height: 60px; border-radius: 15px; object-fit: cover; margin-bottom: 8px; }
+
+        .product-card { background: white; border-radius: 30px; padding: 15px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.04); margin-bottom: 20px; }
+        .product-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 20px; filter: contrast(1.05); }
+
+        .price { color: var(--rosa); font-weight: 800; font-size: 1.4rem; margin: 10px 0; }
+        .add-btn { background: var(--rosa); color: white; border: none; width: 100%; padding: 15px; border-radius: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .add-btn:active { transform: scale(0.96); opacity: 0.9; }
+
+        .view-section { display: none; padding: 20px 5%; animation: fadeIn 0.4s ease; }
+        .view-active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* FORMULARIOS */
+        .form-label { display: block; font-size: 0.75rem; font-weight: bold; margin-bottom: 5px; color: #666; text-align: left; }
+        .form-input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 10px; font-family: 'Quicksand'; box-sizing: border-box; }
+
+        #cart-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 90%; max-width: 420px; padding: 25px; border-radius: 30px; max-height: 90vh; overflow-y: auto; }
+    </style>
+</head>
+<body>
+
+    <div id="splash">
+        <div class="loader-circle"><div class="gift-icon">🎁</div></div>
+        <div class="splash-title">CREACTIVEPACK</div>
+        <div class="splash-subtitle">TECNISOLUCIONES</div>
+    </div>
+
+    <header>
+        <div class="logo" onclick="showView('home')">CREACTIVEPACK</div>
+        <button class="cart-btn" onclick="openCart()">🛒 <span id="count">0</span></button>
+    </header>
+
+    <main id="view-home" class="view-section view-active">
+        
+        <section id="hero">
+            <h1 style="font-size: 1.8rem; margin: 0; color: var(--negro);">Seguridad para tu hogar, <br><span style="color: var(--rosa);">detalles para tu vida.</span></h1>
+            <p style="font-size: 0.9rem; color: #777; margin: 15px 0;">Tecnología avanzada y regalos personalizados en un solo lugar.</p>
+            <div class="cta-container">
+                <button class="cta-main" style="background: var(--azul); color: white;" onclick="showView('tecni')">Ver Cámaras 🛡️</button>
+                <button class="cta-main" style="background: white; border: 2px solid var(--rosa); color: var(--rosa);" onclick="showView('regalos')">Ver Regalos 💝</button>
+            </div>
+        </section>
+
+        <div class="info-slider">
+            <div class="info-wrapper" id="infoWrapper">
+                <div class="info-slide">🛡️ Cámaras de Seguridad y Redes</div>
+                <div class="info-slide">💖 Regalos y Detalles Únicos</div>
+                <div class="info-slide">📦 Cajas de Lujo Personalizadas</div>
+                <div class="info-slide">🛵 Envíos Rápidos con RapiMotord</div>
+            </div>
+        </div>
+
+        <div class="category-grid">
+            <div class="cat-item" onclick="showView('regalos')"><img class="cat-img" src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=150"><span>Regalos</span></div>
+            <div class="cat-item" onclick="showView('tecni')"><img class="cat-img" src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=150"><span>Seguridad</span></div>
+            <div class="cat-item" onclick="showView('papa')"><img class="cat-img" src="https://images.unsplash.com/photo-1586075010633-2470acfd8e8b?w=150"><span>Papelería</span></div>
+            <div class="cat-item" onclick="showView('cajas')"><img class="cat-img" src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?w=150"><span>Cajas</span></div>
+        </div>
+
+        <div class="trust-bar">
+            <div class="trust-item"><div>🛵</div>RapiMotord</div>
+            <div class="trust-item"><div>🏦</div>Pago Seguro</div>
+            <div class="trust-item"><div>🇩🇴</div>S.D. Local</div>
+        </div>
+
+        <div style="margin: 20px 5%; padding: 25px; background: white; border-radius: 30px; border: 3px solid var(--oro); text-align: center; position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; right: 0; background: var(--oro); color: white; padding: 5px 15px; font-size: 0.7rem; font-weight: bold; border-bottom-left-radius: 15px;">TOP VENTAS</div>
+            <h3 style="margin:0; color:var(--oro)">🔥 KIT WI-FI PRO</h3>
+            <p style="font-size:0.8rem; color: #666;">2 Cámaras + Configuración Móvil</p>
+            <div class="price">RD$ 4,500</div>
+            <button class="add-btn" style="background:var(--oro)" onclick="addToCart('Oferta: Kit 2 Cámaras', 4500)">ORDENAR POR WHATSAPP</button>
+        </div>
+    </main>
+
+    <section id="view-tecni" class="view-section" style="background: #f4f7f9; padding-bottom: 40px;">
+        <button onclick="showView('home')" style="border:none; background:none; color:var(--azul); font-weight:bold; cursor:pointer; margin-bottom: 15px;">← VOLVER AL INICIO</button>
+        
+        <div style="background: var(--negro); color: white; padding: 30px 20px; border-radius: 30px; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+            <h2 style="color: var(--azul); margin: 0; font-size: 1.6rem;">🏢 TecniSoluciones</h2>
+            <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 5px;">Oficina Técnica & Centro de Instalaciones</p>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <span style="background: rgba(46, 204, 113, 0.2); color: #2ecc71; padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: bold; border: 1px solid #2ecc71;">● ABIERTO</span>
+                <span style="background: rgba(64, 169, 255, 0.2); color: var(--azul); padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: bold; border: 1px solid var(--azul);">SOPORTE ACTIVO</span>
+            </div>
+        </div>
+
+        <h3 style="font-size: 1rem; color: var(--negro); margin-left: 10px;">📦 Tienda de Equipos</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="product-card" style="padding: 10px; border-radius: 20px;">
+                <img src="https://images.unsplash.com/photo-1557597774-9d2739f85a94?w=200" style="height: 120px; border-radius: 15px; object-fit: cover;">
+                <h4 style="font-size: 0.8rem; margin: 10px 0 5px;">Cámara Wi-Fi 360°</h4>
+                <div class="price" style="font-size: 1rem;">RD$ 2,800</div>
+                <button class="add-btn" style="background: var(--azul); padding: 8px; font-size: 0.7rem;" onclick="addToCart('Cámara 360', 2800)">Añadir</button>
+            </div>
+            <div class="product-card" style="padding: 10px; border-radius: 20px;">
+                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=200" style="height: 120px; border-radius: 15px; object-fit: cover;">
+                <h4 style="font-size: 0.8rem; margin: 10px 0 5px;">Router Alta Potencia</h4>
+                <div class="price" style="font-size: 1rem;">RD$ 3,500</div>
+                <button class="add-btn" style="background: var(--azul); padding: 8px; font-size: 0.7rem;" onclick="addToCart('Router TP-Link', 3500)">Añadir</button>
+            </div>
+        </div>
+
+        <div style="background: white; padding: 25px; border-radius: 30px; margin-top: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+            <h3 style="margin-top: 0; color: var(--azul); font-size: 1.1rem;">🛠️ Despacho de Proyectos</h3>
+            <p style="font-size: 0.8rem; color: #666;">Selecciona tu requerimiento para visita técnica:</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                <div style="display: flex; align-items: center; gap: 10px; background: #f8f9fa; padding: 12px; border-radius: 15px; border: 1px solid #eee;">
+                    <input type="checkbox" id="serv-camaras" value="Cámaras">
+                    <label for="serv-camaras" style="font-size: 0.85rem; font-weight: 600;">Cámaras de Seguridad</label>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; background: #f8f9fa; padding: 12px; border-radius: 15px; border: 1px solid #eee;">
+                    <input type="checkbox" id="serv-redes" value="Redes">
+                    <label for="serv-redes" style="font-size: 0.85rem; font-weight: 600;">Redes y Wi-Fi</label>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; background: #f8f9fa; padding: 12px; border-radius: 15px; border: 1px solid #eee;">
+                    <input type="checkbox" id="serv-biometrico" value="Biométricos">
+                    <label for="serv-biometrico" style="font-size: 0.85rem; font-weight: 600;">Controles de Acceso</label>
+                </div>
+            </div>
+
+            <button class="add-btn" style="background: var(--verde); margin-top: 20px; box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);" onclick="cotizarProyecto()">
+                SOLICITAR VISITA TÉCNICA 📝
+            </button>
+        </div>
+
+        <div style="margin-top: 25px; padding: 20px; background: #e3f2fd; border-radius: 25px; border: 2px dashed var(--azul); text-align: center;">
+            <h4 style="margin: 0; color: var(--azul); font-size: 0.9rem;">🛵 Entrega Segura con RapiMotord</h4>
+            <p style="font-size: 0.75rem; color: #555; margin-top: 5px;">Técnicos identificados para tu seguridad en S.D.</p>
+            <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+                <img src="https://i.pravatar.cc/100?u=tech1" style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid white;">
+                <img src="https://i.pravatar.cc/100?u=tech2" style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid white;">
+                <img src="https://i.pravatar.cc/100?u=tech3" style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid white;">
+            </div>
+        </div>
+    </section>
+
+    <section id="view-cajas" class="view-section">
+        <button onclick="showView('home')" style="border:none; background:none; color:var(--purpura); font-weight:bold; cursor:pointer; margin-bottom: 10px;">← VOLVER</button>
+        <h2 style="color:var(--purpura)">📦 Cajas Personalizadas</h2>
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?w=400" loading="lazy">
+            <h3>Diseña tu Caja Única</h3>
+            <div style="text-align: left; padding: 10px;">
+                <label class="form-label">Evento</label>
+                <select id="caja-evento" class="form-input">
+                    <option value="Cumpleaños">Cumpleaños 🎂</option>
+                    <option value="Aniversario">Aniversario ❤️</option>
+                    <option value="Detalle especial">Detalle especial ✨</option>
+                </select>
+                <label class="form-label">Color y Estilo</label>
+                <input type="text" id="caja-color" class="form-input" placeholder="Ej: Azul con plata">
+                <label class="form-label">Contenido sugerido</label>
+                <textarea id="caja-detalle" class="form-input" style="height:60px;"></textarea>
+            </div>
+            <button class="add-btn" style="background:var(--purpura)" onclick="addCustomBox()">Agregar al Pedido</button>
+        </div>
+    </section>
+
+    <section id="view-papa" class="view-section">
+        <button onclick="showView('home')" style="border:none; background:none; color:var(--oro); font-weight:bold; cursor:pointer; margin-bottom: 10px;">← VOLVER</button>
+        <h2 style="color:var(--oro)">📚 Papelería</h2>
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1586075010633-2470acfd8e8b?w=400" loading="lazy">
+            <h3>Resma de Papel Bond A4</h3>
+            <div class="price">RD$ 380</div>
+            <button class="add-btn" style="background:var(--oro)" onclick="addToCart('Resma Papel', 380)">Añadir</button>
+        </div>
+    </section>
+
+    <section id="view-regalos" class="view-section">
+        <button onclick="showView('home')" style="border:none; background:none; color:var(--rosa); font-weight:bold; cursor:pointer; margin-bottom: 10px;">← VOLVER</button>
+        <h2 style="color:var(--rosa)">💝 Detalles</h2>
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400" loading="lazy">
+            <h3>Arreglo Sorpresa Especial</h3>
+            <div class="price">RD$ 2,500</div>
+            <button class="add-btn" onclick="addToCart('Arreglo Sorpresa', 2500)">Añadir al Carrito</button>
+        </div>
+    </section>
+
+    <div id="cart-modal">
+        <div class="modal-content">
+            <h2 style="color:var(--verde); text-align: center; margin-top:0;">Tu Pedido 🛵</h2>
+            <div id="cart-items" style="max-height: 200px; overflow-y: auto; margin-bottom: 15px;"></div>
+            
+            <label class="form-label">Nombre del Cliente</label>
+            <input type="text" id="name" class="form-input" placeholder="Ej: Juan Pérez">
+            
+            <label class="form-label">Dirección en S.D.</label>
+            <input type="text" id="address" class="form-input" placeholder="Sector y Calle">
+            
+            <label class="form-label">Distancia desde Local (KM)</label>
+            <input type="number" id="distancia-km" class="form-input" value="0" oninput="recalcularTotales()">
+            
+            <label class="form-label">¿Cómo recibes?</label>
+            <select id="metodo-entrega" class="form-input" onchange="recalcularTotales()">
+                <option value="rapimotord">Envío RapiMotord (RD$15/km)</option>
+                <option value="local">Recoger en local (Gratis)</option>
+            </select>
+
+            <div style="background:#f8f9fa; padding:15px; border-radius:20px;">
+                <div style="display:flex; justify-content:space-between; font-size:0.9rem;"><span>Subtotal:</span><span id="subtotal-val">RD$ 0</span></div>
+                <div style="display:flex; justify-content:space-between; color:var(--rosa); font-size:0.9rem;"><span>Envío:</span><span id="envio-val">RD$ 0</span></div>
+                <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.2rem; margin-top:8px; border-top:1px solid #ddd; padding-top:8px;">
+                    <span>TOTAL:</span><span id="total-val">0</span>
+                </div>
+            </div>
+
+            <button class="add-btn" style="background:var(--verde); margin-top:15px; font-size: 1.1rem;" onclick="sendWhatsApp()">PEDIR POR WHATSAPP 📱</button>
+            <button onclick="closeCart()" style="border:none; background:none; width:100%; margin-top:15px; color:gray; cursor:pointer;">Continuar viendo</button>
+        </div>
+    </div>
+
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+        <button onclick="toggleMusic()" id="btnMusica" style="background: white; border: 2px solid var(--rosa); border-radius: 50%; width: 45px; height: 45px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer; font-size: 1.2rem;">🔇</button>
+        <audio id="musicaFondo" loop src="https://www.bensound.com/bensound-music/bensound-creativeminds.mp3"></audio> 
+    </div>
+
+    <script>
+        // CONFIGURACIÓN GLOBAL
+        const WHATSAPP_NUMBER = "8094190246"; 
+        const PRECIO_KM = 15;
+        let cart = [];
+
+        // SPLASH Y CARGA
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash');
+                if(splash){ splash.style.opacity = '0'; splash.style.visibility = 'hidden'; }
+            }, 2500);
+            loadSavedProfile();
+        });
+
+        function loadSavedProfile() {
+            const savedName = localStorage.getItem('cp_name');
+            const savedAddress = localStorage.getItem('cp_address');
+            if(savedName) document.getElementById('name').value = savedName;
+            if(savedAddress) document.getElementById('address').value = savedAddress;
+        }
+
+        // MÚSICA
+        function toggleMusic() {
+            var audio = document.getElementById("musicaFondo");
+            var btn = document.getElementById("btnMusica");
+            if (audio.paused) { audio.play(); btn.innerText = "🔊"; } 
+            else { audio.pause(); btn.innerText = "🔇"; }
+        }
+
+        // SLIDER
+        let infoIdx = 0;
+        setInterval(() => {
+            const wrapper = document.getElementById('infoWrapper');
+            infoIdx = (infoIdx + 1) % 4;
+            if(wrapper) wrapper.style.transform = `translateX(-${infoIdx * 100}%)`;
+        }, 3500);
+
+        // NAVEGACIÓN
+        function showView(v) {
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('view-active'));
+            document.getElementById('view-' + v).classList.add('view-active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // CARRITO
+        function addToCart(name, price, details = "") {
+            cart.push({id: Date.now(), name, price, details});
+            document.getElementById('count').innerText = cart.length;
+            const btn = event.target;
+            btn.innerText = "¡AÑADIDO! ✅";
+            setTimeout(() => btn.innerText = (name.includes('Cámara')) ? "Añadir" : "Añadir al Carrito", 2000);
+        }
+
+        function addCustomBox() {
+            const color = document.getElementById('caja-color').value;
+            const detalle = document.getElementById('caja-detalle').value;
+            if(!color || !detalle) return alert("Por favor completa los detalles de la caja");
+            addToCart("Caja Personalizada", 500, `Color: ${color}, Contenido: ${detalle}`);
+            showView('home');
+        }
+
+        // FUNCIÓN: COTIZAR PROYECTO TÉCNICO PARA TECNISOLUCIONES
+        function cotizarProyecto() {
+            let seleccionados = [];
+            if(document.getElementById('serv-camaras').checked) seleccionados.push("Cámaras");
+            if(document.getElementById('serv-redes').checked) seleccionados.push("Redes");
+            if(document.getElementById('serv-biometrico').checked) seleccionados.push("Biométricos");
+
+            if(seleccionados.length === 0) return alert("Por favor selecciona al menos un servicio");
+
+            let cliente = document.getElementById('name').value || "Cliente Nuevo";
+            let msg = `*SOLICITUD TÉCNICA - TECNISOLUCIONES*%0A` +
+                      `*Cliente:* ${cliente}%0A` +
+                      `*Interés en:* ${seleccionados.join(", ")}%0A` +
+                      `*Deseo una visita técnica para agendar cita.*`;
+            
+            window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+        }
+
+        function recalcularTotales() {
+            let sub = cart.reduce((acc, i) => acc + i.price, 0);
+            let km = parseFloat(document.getElementById('distancia-km').value) || 0;
+            let entrega = document.getElementById('metodo-entrega').value;
+            let envio = (entrega === "rapimotord") ? (km * PRECIO_KM) : 0;
+            document.getElementById('subtotal-val').innerText = "RD$ " + sub.toLocaleString();
+            document.getElementById('envio-val').innerText = "RD$ " + envio.toLocaleString();
+            document.getElementById('total-val').innerText = "RD$ " + (sub + envio).toLocaleString();
+        }
+
+        function openCart() {
+            if(cart.length === 0) return alert("Tu carrito está vacío todavía.");
+            const list = document.getElementById('cart-items');
+            list.innerHTML = cart.map(item => `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding:10px; background:#f9f9f9; border-radius:12px;">
+                    <div style="font-size:0.8rem;"><b>${item.name}</b><br><small>${item.details}</small></div>
+                    <div style="font-weight:bold; color:var(--rosa);">RD$ ${item.price}</div>
+                </div>
+            `).join('');
+            recalcularTotales();
+            document.getElementById('cart-modal').style.display = 'flex';
+        }
+
+        function closeCart() { document.getElementById('cart-modal').style.display = 'none'; }
+
+        function sendWhatsApp() {
+            const n = document.getElementById('name').value;
+            const a = document.getElementById('address').value;
+            if(!n || !a) return alert("Necesitamos tu nombre y dirección para el envío.");
+            
+            localStorage.setItem('cp_name', n);
+            localStorage.setItem('cp_address', a);
+
+            let msg = `*NUEVO PEDIDO - CREACTIVEPACK*%0A` +
+                      `*Cliente:* ${n}%0A` +
+                      `*Dirección:* ${a}%0A` +
+                      `*Total:* ${document.getElementById('total-val').innerText}%0A%0A` +
+                      `*Productos:*%0A` + cart.map(i => `- ${i.name} (${i.price})`).join('%0A');
+            
+            window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+        }
+    </script>
 <script type="module">
+        // 1. Importaciones usando URLs (necesario para que funcione en el navegador)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // 2. Tu configuración exacta de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAw4aqJDVXyPnwv4se7J_cmJVbnwRw6gYw",
+            authDomain: "creactivepackweb.firebaseapp.com",
+            projectId: "creactivepackweb",
+            storageBucket: "creactivepackweb.firebasestorage.app",
+            messagingSenderId: "100899007718",
+            appId: "1:100899007718:web:ea20959af8421e756b9f27",
+            measurementId: "G-9FGCV8TJ5J"
+        };
+
+        // 3. Inicialización
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        // --- LÓGICA DE LA TIENDA (Mantenemos tus funciones vivas) ---
+        const WHATSAPP_NUMBER = "8094190246"; 
+        const PRECIO_KM = 15;
+        window.cart = [];
+
+        window.toggleMusic = () => {
+            var audio = document.getElementById("musicaFondo");
+            var btn = document.getElementById("btnMusica");
+            if (audio.paused) { audio.play(); btn.innerText = "🔊"; } 
+            else { audio.pause(); btn.innerText = "🔇"; }
+        };
+
+        window.showView = (v) => {
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('view-active'));
+            document.getElementById('view-' + v).classList.add('view-active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+
+        window.addToCart = (name, price, details = "") => {
+            window.cart.push({id: Date.now(), name, price, details});
+            document.getElementById('count').innerText = window.cart.length;
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = "¡AÑADIDO! ✅";
+            setTimeout(() => btn.innerText = originalText, 2000);
+        };
+
+        window.addCustomBox = () => {
+            const color = document.getElementById('caja-color').value;
+            const detalle = document.getElementById('caja-detalle').value;
+            if(!color || !detalle) return alert("Por favor completa los detalles");
+            window.addToCart("Caja Personalizada", 500, `Color: ${color}, Contenido: ${detalle}`);
+            window.showView('home');
+        };
+
+        window.recalcularTotales = () => {
+            let sub = window.cart.reduce((acc, i) => acc + i.price, 0);
+            let km = parseFloat(document.getElementById('distancia-km').value) || 0;
+            let entrega = document.getElementById('metodo-entrega').value;
+            let envio = (entrega === "rapimotord") ? (km * PRECIO_KM) : 0;
+            document.getElementById('subtotal-val').innerText = "RD$ " + sub.toLocaleString();
+            document.getElementById('envio-val').innerText = "RD$ " + envio.toLocaleString();
+            document.getElementById('total-val').innerText = "RD$ " + (sub + envio).toLocaleString();
+        };
+
+        window.openCart = () => {
+            if(window.cart.length === 0) return alert("Tu carrito está vacío.");
+            const list = document.getElementById('cart-items');
+            list.innerHTML = window.cart.map(item => `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding:10px; background:#f9f9f9; border-radius:12px;">
+                    <div style="font-size:0.8rem;"><b>${item.name}</b></div>
+                    <div style="font-weight:bold; color:var(--rosa);">RD$ ${item.price}</div>
+                </div>
+            `).join('');
+            window.recalcularTotales();
+            document.getElementById('cart-modal').style.display = 'flex';
+        };
+
+        window.closeCart = () => { document.getElementById('cart-modal').style.display = 'none'; };
+
+        // GUARDADO EN FIREBASE + WHATSAPP
+        document.getElementById('btnWhatsApp').onclick = async () => {
+            const n = document.getElementById('name').value;
+            const a = document.getElementById('address').value;
+            if(!n || !a) return alert("Falta nombre o dirección.");
+            
+            const totalStr = document.getElementById('total-val').innerText;
+
+            try {
+                // Esto guarda el pedido en tu Firestore automáticamente
+                await addDoc(collection(db, "pedidos"), {
+                    cliente: n,
+                    direccion: a,
+                    items: window.cart,
+                    total: totalStr,
+                    fecha: serverTimestamp()
+                });
+
+                let msg = `*NUEVO PEDIDO*%0A*Cliente:* ${n}%0A*Total:* ${totalStr}`;
+                window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+            } catch (e) {
+                console.error("Error: ", e);
+                alert("Error al guardar. Revisa la consola.");
+            }
+        };
+
+        <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -70,4 +598,4 @@
         window.onload = () => setTimeout(() => document.getElementById('splash').style.display = 'none', 2000);
     </script>
 </body>
-</html>
+
